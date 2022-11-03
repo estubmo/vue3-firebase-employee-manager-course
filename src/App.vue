@@ -9,6 +9,13 @@
 
 <script>
 import NavBar from './components/NavBar'
+
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  console.log('mounted')
+})
+
 export default {
   name: 'App',
   components: {
