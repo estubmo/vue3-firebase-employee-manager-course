@@ -2,6 +2,7 @@
   <div id="app">
     <NavBar />
     <div class="container">
+      <!-- This shows the content of the defined path, resolved by the router -->
       <router-view />
     </div>
   </div>

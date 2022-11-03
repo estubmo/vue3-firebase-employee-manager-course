@@ -52,6 +52,7 @@ export default {
 
     const querySnapshot = await getDocs(employeesCollectionQuery)
 
+    // Getting actual data requires fetching doc.data()
     querySnapshot.forEach((doc) => {
       const data = {
         id: doc.id,
