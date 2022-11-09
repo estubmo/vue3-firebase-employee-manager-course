@@ -5,7 +5,7 @@
       <form class="col s12" @submit.prevent="updateEmployee">
         <div class="row">
           <div class="input-field col s12">
-            <input v-model="employee_id" type="text" required />
+            <input v-model="employee_id" disabled type="text" required />
           </div>
         </div>
         <div class="row">
@@ -38,6 +38,8 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
+  doc,
 } from 'firebase/firestore'
 
 export default {
@@ -65,19 +67,38 @@ export default {
       name: null,
       dept: null,
       position: null,
+      doc: null,
+      data: 'cakecake',
+      ref: null,
     }
+  },
+  watch: {
+    $route: 'beforeRouteEnter',
   },
   methods: {
     updateEmployee: async function () {
-      const employeesCollectionRef = collection(db, 'employees')
       try {
-        await updateDoc(employeesCollectionRef, {
-          employee_id: this.employee_id,
+        const employeesCollectionRef = collection(db, 'employees')
+        const employeeCollectionQuery = query(
+          employeesCollectionRef,
+          where('employee_id', '==', this.employee_id)
+        )
+
+        const querySnapshot = await getDocs(employeeCollectionQuery)
+        let docRef
+        querySnapshot.forEach((doc) => {
+          docRef = doc.ref
+        })
+
+        await updateDoc(docRef, {
           name: this.name,
           dept: this.dept,
           position: this.position,
         })
-        this.$router.push('/')
+        this.$router.push({
+          name: 'view-employee',
+          params: { employee_id: this.employee_id },
+        })
       } catch (error) {
         console.log(error)
       }
