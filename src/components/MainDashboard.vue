@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { db } from './../firebase'
+import { db } from '@/firebase'
 import { collection, query, orderBy, getDocs } from 'firebase/firestore'
 
 export default {
